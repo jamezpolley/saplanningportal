@@ -67,16 +67,22 @@ for ($i=0; $i <= $_pages; $i++) {
     $_results = json_decode($page->body);
 
     foreach ($_results->Values as $result) {
-        // if address field blank, skip this iteration
-        if ( trim($result->FieldValues[2]) === '-' ) {
-            continue;
-        }
+        $council_reference = preg_replace('/\s+/', ' ', trim($result->FieldValues[0]));
+
         $date_received = explode('/', $result->FieldValues[5]);
         $date_received = $date_received[2] .'-'. $date_received[1] .'-'. $date_received[0];
 
+        $address = trim($result->FieldValues[2]);
+
+        // if address field blank, skip this iteration
+        if ( strlen($address) < 5 ) {
+            print "Skipping DA `" . $council_reference . "` beacuse of blank or short address.\n";
+            continue;
+        }
+
         $application = [
-            'council_reference' => preg_replace('/\s+/', ' ', trim($result->FieldValues[0])),
-            'address'           => trim($result->FieldValues[2]) . ', SA',
+            'council_reference' => $council_reference,
+            'address'           => $address . ', SA',
             'description'       => preg_replace('/\s+/', ' ', trim($result->FieldValues[3])),
             'info_url'          => $info_url . "#view-" .trim($result->FieldValues[6]). "-" .trim($result->FieldValues[7]),
             'comment_url'       => $info_url,
