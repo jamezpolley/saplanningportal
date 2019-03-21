@@ -13,6 +13,6 @@ Setup MORPH_PERIOD for data recovery, available options are
 * thisweek (default)
 * thismonth
 * lastmonth
-* year (ie. 2017, min 2003)
+* ~~year (ie. 2017, min 2003)~~
 
 Enjoy
