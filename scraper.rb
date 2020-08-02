@@ -44,6 +44,7 @@ _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
 agent = Mechanize.new
 page = agent.post ajax_url, _body, _header
 
+puts page.body
 _results = JSON.parse(page.body)
 _pages   = ( _results['Count'] / _json['MaxRecords'] ).floor
 
