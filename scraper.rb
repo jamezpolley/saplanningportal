@@ -59,7 +59,16 @@ for i in 0.._pages do
   _results = JSON.parse(page.body)
 
   _results['Values'].each do |result|
-    puts "Date received text is " + result['FieldValues'][5].to_s + " (element 4 is " + result['FieldValues'][4].to_s + ")"
+    puts "  Element 0: " + result['FieldValues'][0].to_s
+    puts "  Element 1: " + result['FieldValues'][1].to_s
+    puts "  Element 2: " + result['FieldValues'][2].to_s
+    puts "  Element 3: " + result['FieldValues'][3].to_s
+    puts "  Element 4: " + result['FieldValues'][4].to_s
+    puts "  Element 5: " + result['FieldValues'][5].to_s
+    puts "  Element 6: " + result['FieldValues'][6].to_s
+    puts "  Element 7: " + result['FieldValues'][7].to_s
+    puts "  Element 8: " + result['FieldValues'][8].to_s
+    puts "  Element 9: " + result['FieldValues'][9].to_s
     record = {
       'council_reference' => result['FieldValues'][0].to_s,
       'address'           => result['FieldValues'][2].to_s,
