@@ -44,7 +44,6 @@ _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
 agent = Mechanize.new
 page = agent.post ajax_url, _body, _header
 
-puts page.body
 _results = JSON.parse(page.body)
 _pages   = ( _results['Count'] / _json['MaxRecords'] ).floor
 
@@ -60,16 +59,6 @@ for i in 0.._pages do
   _results = JSON.parse(page.body)
 
   _results['Values'].each do |result|
-    puts "  Element 0: " + result['FieldValues'][0].to_s
-    puts "  Element 1: " + result['FieldValues'][1].to_s
-    puts "  Element 2: " + result['FieldValues'][2].to_s
-    puts "  Element 3: " + result['FieldValues'][3].to_s
-    puts "  Element 4: " + result['FieldValues'][4].to_s
-    puts "  Element 5: " + result['FieldValues'][5].to_s
-    puts "  Element 6: " + result['FieldValues'][6].to_s
-    puts "  Element 7: " + result['FieldValues'][7].to_s
-    puts "  Element 8: " + result['FieldValues'][8].to_s
-    puts "  Element 9: " + result['FieldValues'][9].to_s
     record = {
       'council_reference' => result['FieldValues'][0].to_s,
       'address'           => result['FieldValues'][2].to_s,
@@ -77,7 +66,7 @@ for i in 0.._pages do
       'info_url'          => 'http://www.saplanningportal.sa.gov.au/public_register',
       'comment_url'       => 'http://www.saplanningportal.sa.gov.au/public_register',
       'date_scraped'      => Date.today.to_s,
-      'date_received'     => Date.parse(result['FieldValues'][5].to_s).to_s,
+      'date_received'     => Date.parse(result['FieldValues'][7].to_s).to_s,
     }
 
     unless record.has_blank?
