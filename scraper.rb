@@ -44,8 +44,6 @@ _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
 agent = Mechanize.new
 page = agent.post ajax_url, _body, _header
 
-puts page.body
-
 _results = JSON.parse(page.body)
 _pages   = ( _results['Count'] / _json['MaxRecords'] ).floor
 
@@ -62,11 +60,11 @@ for i in 0.._pages do
 
   _results['Values'].each do |result|
     record = {
-      'council_reference' => result['FieldValues'][0].to_s,
-      'address'           => result['FieldValues'][2].to_s,
-      'description'       => result['FieldValues'][3].to_s,
-      'info_url'          => 'http://www.saplanningportal.sa.gov.au/public_register',
-      'comment_url'       => 'http://www.saplanningportal.sa.gov.au/public_register',
+      'council_reference' => result['FieldValues'][1].to_s,
+      'address'           => result['FieldValues'][4].to_s,
+      'description'       => result['FieldValues'][5].to_s,
+      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][1].to_s + '-' + result['FieldValues'][8].to_s ,
+      'comment_url'       => 'https://plan.sa.gov.au/development_application_register',
       'date_scraped'      => Date.today.to_s,
       'date_received'     => Date.parse(result['FieldValues'][7].to_s).to_s,
     }
@@ -74,7 +72,6 @@ for i in 0.._pages do
     unless record.has_blank?
       record['address'] = record['address'] + ', SA'
       puts "Saving record " + record['council_reference'] + ", " + record['address']
-#         puts record
       ScraperWiki.save_sqlite(['council_reference'], record)
     else
       puts "Something not right here: #{record}"
