@@ -63,7 +63,7 @@ for i in 0.._pages do
       'council_reference' => result['FieldValues'][1].to_s,
       'address'           => result['FieldValues'][4].to_s,
       'description'       => result['FieldValues'][5].to_s,
-      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][1].to_s + '-' + result['FieldValues'][8].to_s ,
+      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][0].to_s + '-' + result['FieldValues'][8].to_s ,
       'comment_url'       => 'https://plan.sa.gov.au/development_application_register',
       'date_scraped'      => Date.today.to_s,
       'date_received'     => Date.parse(result['FieldValues'][7].to_s).to_s,
@@ -71,7 +71,7 @@ for i in 0.._pages do
 
     unless record.has_blank?
       record['address'] = record['address'] + ', SA'
-      puts "Saving record " + record['council_reference'] + ", " + record['address']
+      puts "Saving record " + record['council_reference'] + ", " + record['address'] + ", " + record['description'] + ", " + record['date_scraped'] + ", " + record['info_url']
       ScraperWiki.save_sqlite(['council_reference'], record)
     else
       puts "Something not right here: #{record}"
