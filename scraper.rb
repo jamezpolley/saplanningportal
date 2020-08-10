@@ -25,7 +25,7 @@ else
   startDate = Date.today - 14
   endDate   = Date.today
 end
-puts "Getting '" + period + "' data, changable via MORPH_PERIOD environment"
+puts "Getting '" + period + "' data, changeable using the MORPH_PERIOD environment variable"
 
 
 ## ajax_url = 'https://apps.planning.sa.gov.au/AjaxDataService/DataHandler.ashx'
@@ -41,10 +41,13 @@ _json['RecordNumber']       = 0
 _json['MaxRecords']         = 50
 _body = 'payload=' + Base64.strict_encode64(_json.to_json)
 _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Referer'      => 'https://www.saplanningportal.sa.gov.au/current_planning_system/development_assessment/public_register' }
+            'Referer'      => 'https://plan.sa.gov.au/development_application_register' }
+##             'Referer'      => 'https://www.saplanningportal.sa.gov.au/current_planning_system/development_assessment/public_register' }
 
 agent = Mechanize.new
 page = agent.post ajax_url, _body, _header
+
+puts page.body
 
 _results = JSON.parse(page.body)
 _pages   = ( _results['Count'] / _json['MaxRecords'] ).floor
