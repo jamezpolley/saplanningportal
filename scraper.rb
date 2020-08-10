@@ -28,23 +28,23 @@ end
 puts "Getting '" + period + "' data, changeable using the MORPH_PERIOD environment variable"
 
 
-## ajax_url = 'https://apps.planning.sa.gov.au/AjaxDataService/DataHandler.ashx'
-## payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ=='
-ajax_url = 'https://plan.sa.gov.au/development_application_register/assets/daregister'
-payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiQ29uZmlnIjoiUFVCTElDX1JFR0lTVEVSIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ==' 
+ajax_url = 'https://apps.planning.sa.gov.au/AjaxDataService/DataHandler.ashx'
+payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ=='
+## ajax_url = 'https://plan.sa.gov.au/development_application_register/assets/daregister'
+## payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiQ29uZmlnIjoiUFVCTElDX1JFR0lTVEVSIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ==' 
 
 ## Update JSON fields
 _json = JSON.parse(Base64.decode64(payload))
-## _json['Params'][0]['value'] = startDate.strftime('%d/%m/%Y')
-## _json['Params'][1]['value'] = endDate.strftime('%d/%m/%Y')
-_json['Params'][0]['value'] = startDate.strftime('%Y-%m-%d')
-_json['Params'][1]['value'] = endDate.strftime('%Y-%m-%d')
+_json['Params'][0]['value'] = startDate.strftime('%d/%m/%Y')
+_json['Params'][1]['value'] = endDate.strftime('%d/%m/%Y')
+## _json['Params'][0]['value'] = startDate.strftime('%Y-%m-%d')
+## _json['Params'][1]['value'] = endDate.strftime('%Y-%m-%d')
 _json['RecordNumber']       = 0
 _json['MaxRecords']         = 50
 _body = 'payload=' + Base64.strict_encode64(_json.to_json)
 _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Referer'      => 'https://plan.sa.gov.au/development_application_register' }
-##             'Referer'      => 'https://www.saplanningportal.sa.gov.au/current_planning_system/development_assessment/public_register' }
+##             'Referer'      => 'https://plan.sa.gov.au/development_application_register' }
+             'Referer'      => 'https://www.saplanningportal.sa.gov.au/current_planning_system/development_assessment/public_register' }
 
 agent = Mechanize.new
 page = agent.post ajax_url, _body, _header
@@ -69,16 +69,16 @@ for i in 0.._pages do
   _results['Values'].each do |result|
     record = {
       'council_reference' => result['FieldValues'][1].to_s,
-##      'address'           => result['FieldValues'][4].to_s,
-      'address'           => result['FieldValues'][3].to_s,
-##      'description'       => result['FieldValues'][5].to_s,
-      'description'       => result['FieldValues'][4].to_s,
-##      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][0].to_s + '-' + result['FieldValues'][8].to_s ,
-      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][0].to_s + '-' + result['FieldValues'][6].to_s ,
+      'address'           => result['FieldValues'][4].to_s,
+##      'address'           => result['FieldValues'][3].to_s,
+      'description'       => result['FieldValues'][5].to_s,
+##      'description'       => result['FieldValues'][4].to_s,
+      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][0].to_s + '-' + result['FieldValues'][8].to_s ,
+##      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][0].to_s + '-' + result['FieldValues'][6].to_s ,
       'comment_url'       => 'https://plan.sa.gov.au/development_application_register',
       'date_scraped'      => Date.today.to_s,
-##      'date_received'     => Date.parse(result['FieldValues'][7].to_s).to_s,
-      'date_received'     => Date.parse(result['FieldValues'][5].to_s).to_s,
+      'date_received'     => Date.parse(result['FieldValues'][7].to_s).to_s,
+##      'date_received'     => Date.parse(result['FieldValues'][5].to_s).to_s,
     }
 
     unless record.has_blank?
