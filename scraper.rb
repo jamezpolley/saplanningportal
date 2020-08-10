@@ -30,6 +30,7 @@ puts "Getting '" + period + "' data, changable via MORPH_PERIOD environment"
 
 ajax_url = 'https://apps.planning.sa.gov.au/AjaxDataService/DataHandler.ashx'
 payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ=='
+payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiQ29uZmlnIjoiUFVCTElDX1JFR0lTVEVSIiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiUGFyYW1zIjpbeyJuYW1lIjoiRGV2Tm8iLCJ2YWx1ZSI6IjI1Mi9WMDk4LzIwIn1dLCJTb3J0RGlyZWN0aW9uIjoiIiwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIyNSJ9' 
 
 ## Update JSON fields
 _json = JSON.parse(Base64.decode64(payload))
