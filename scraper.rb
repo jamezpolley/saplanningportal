@@ -36,8 +36,8 @@ payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVy
 ## Update JSON fields
 _json = JSON.parse(Base64.decode64(payload))
 ## _json['Params'][0]['value'] = startDate.strftime('%d/%m/%Y')
-## _json['Params'][0]['value'] = startDate.strftime('%d/%m/%Y')
-_json['Params'][1]['value'] = endDate.strftime('%Y-%m-%d')
+## _json['Params'][1]['value'] = endDate.strftime('%d/%m/%Y')
+_json['Params'][0]['value'] = startDate.strftime('%Y-%m-%d')
 _json['Params'][1]['value'] = endDate.strftime('%Y-%m-%d')
 _json['RecordNumber']       = 0
 _json['MaxRecords']         = 50
