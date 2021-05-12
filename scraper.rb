@@ -50,8 +50,7 @@ for i in 0.._pages do
 
   # Pick out fields by name rather than index
   codes = _results["Fields"]["Fields"].map{|f| f["FieldCode"]}
-  # TODO: Do we want to use DevNo or AppId?
-  council_reference_index = codes.find_index("DevNo")
+  council_reference_index = codes.find_index("AppId")
   address_index = codes.find_index("Addr")
   description_index = codes.find_index("DevDesc")
   date_received_index = codes.find_index("Lodged")
