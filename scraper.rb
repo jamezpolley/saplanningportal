@@ -20,17 +20,13 @@ _json = {
   "DataObject" => "PublicRegisterSearch",
   "Config" => "PUBLIC_REGISTER",
   "Params" => [
-    {"name" => "LodgedDateStart", "value" => "01/07/2017"},
-    {"name" => "LodgedDateEnd", "value" => "18/07/2017"}
+    {"name" => "LodgedDateStart", "value" => startDate.strftime('%Y-%m-%d')},
+    {"name" => "LodgedDateEnd", "value" => endDate.strftime('%Y-%m-%d')}
   ],
   "SortExpression" => "LodgedNew",
   "RecordNumber" => 0,
-  "MaxRecords" => "100"
+  "MaxRecords" => 50
 }
-_json['Params'][0]['value'] = startDate.strftime('%Y-%m-%d')
-_json['Params'][1]['value'] = endDate.strftime('%Y-%m-%d')
-_json['RecordNumber']       = 0
-_json['MaxRecords']         = 50
 _body = 'payload=' + Base64.strict_encode64(_json.to_json)
 _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
             'Referer'      => 'https://plan.sa.gov.au/development_application_register' }
