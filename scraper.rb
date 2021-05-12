@@ -48,15 +48,26 @@ for i in 0.._pages do
 
   _results = JSON.parse(page.body)
 
+  # Pick out fields by name rather than index
+  codes = _results["Fields"]["Fields"].map{|f| f["FieldCode"]}
+  # TODO: Do we want to use DevNo or AppId?
+  council_reference_index = codes.find_index("DevNo")
+  address_index = codes.find_index("Addr")
+  description_index = codes.find_index("DevDesc")
+  date_received_index = codes.find_index("Lodged")
+
+  app_id_index = codes.find_index("AppId")
+  base_index = codes.find_index("Base")
+
   _results['Values'].each do |result|
     record = {
-      'council_reference' => result['FieldValues'][1].to_s,
-      'address'           => result['FieldValues'][3].to_s,
-      'description'       => result['FieldValues'][4].to_s,
-      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][0].to_s + '-' + result['FieldValues'][6].to_s ,
+      'council_reference' => result['FieldValues'][council_reference_index].to_s,
+      'address'           => result['FieldValues'][address_index].to_s,
+      'description'       => result['FieldValues'][description_index].to_s,
+      'info_url'          => 'https://plan.sa.gov.au/development_application_register#view-' + result['FieldValues'][app_id_index].to_s + '-' + result['FieldValues'][base_index].to_s ,
       'comment_url'       => 'https://plan.sa.gov.au/development_application_register',
       'date_scraped'      => Date.today.to_s,
-      'date_received'     => Date.parse(result['FieldValues'][5].to_s).to_s,
+      'date_received'     => Date.parse(result['FieldValues'][date_received_index].to_s).to_s,
     }
 
     unless record.has_blank?
