@@ -70,7 +70,6 @@ for i in 0.._pages do
     }
 
     unless record.has_blank?
-      puts "Saving record " + record['council_reference'] + ", " + record['address'] + ", " + record['description'] + ", " + record['date_scraped'] + ", " + record['info_url']
       ScraperWiki.save_sqlite(['council_reference'], record)
     else
       puts "Something not right here: #{record}"
