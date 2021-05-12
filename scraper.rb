@@ -34,11 +34,8 @@ _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
 agent = Mechanize.new
 page = agent.post ajax_url, _body, _header
 
-puts page.body
-
 _results = JSON.parse(page.body)
 _pages   = ( _results['Count'] / _json['MaxRecords'] ).floor
-
 
 for i in 0.._pages do
   puts 'Scraping page ' + (i+1).to_s + ' of ' + (_pages+1).to_s
@@ -48,7 +45,7 @@ for i in 0.._pages do
   _body = 'payload=' + Base64.strict_encode64(_json.to_json)
 
   page = agent.post ajax_url, _body, _header
-  puts page.body
+
   _results = JSON.parse(page.body)
 
   _results['Values'].each do |result|
