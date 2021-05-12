@@ -3,30 +3,15 @@ require 'mechanize'
 require 'json'
 require 'base64'
 
-
 class Hash
   def has_blank?
     self.values.any?{|v| v.nil? || v.length == 0}
   end
 end
 
-
-case ENV['MORPH_PERIOD']
-when 'thismonth'
-  period    = 'This Month'
-  startDate = (Date.today) - (Date.today.mday) + 1
-  endDate   = ((Date.today >> 1) - (Date.today.mday))
-when 'lastmonth'
-  period    = 'Last Month'
-  startDate = (Date.today << 1) - (Date.today << 1).mday + 1
-  endDate   = (Date.today) - (Date.today.mday)
-else
-  period    = 'Last 14 Days'
-  startDate = Date.today - 14
-  endDate   = Date.today
-end
-puts "Getting '" + period + "' data, changeable using the MORPH_PERIOD environment variable"
-
+# Get the last 14 days
+startDate = Date.today - 14
+endDate   = Date.today
 
 ajax_url = 'https://plan.sa.gov.au/development_application_register/assets/daregister'
 payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiQ29uZmlnIjoiUFVCTElDX1JFR0lTVEVSIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ==' 
