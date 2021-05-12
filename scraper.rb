@@ -9,8 +9,8 @@ class Hash
   end
 end
 
-# Get the last 14 days
-startDate = Date.today - 14
+# Get the last 28 days
+startDate = Date.today - 28
 endDate   = Date.today
 
 ajax_url = 'https://plan.sa.gov.au/development_application_register/assets/daregister'
