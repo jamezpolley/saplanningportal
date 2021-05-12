@@ -25,7 +25,7 @@ _json = {
   ],
   "SortExpression" => "LodgedNew",
   "RecordNumber" => 0,
-  "MaxRecords" => 50
+  "MaxRecords" => 100
 }
 _body = 'payload=' + Base64.strict_encode64(_json.to_json)
 _header = { 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
