@@ -14,10 +14,19 @@ startDate = Date.today - 14
 endDate   = Date.today
 
 ajax_url = 'https://plan.sa.gov.au/development_application_register/assets/daregister'
-payload  = 'eyJBY3Rpb25UeXBlIjoic2VsZWN0IiwiRGF0YU9iamVjdCI6IlB1YmxpY1JlZ2lzdGVyU2VhcmNoIiwiQ29uZmlnIjoiUFVCTElDX1JFR0lTVEVSIiwiUGFyYW1zIjpbeyJuYW1lIjoiTG9kZ2VkRGF0ZVN0YXJ0IiwidmFsdWUiOiIwMS8wNy8yMDE3In0seyJuYW1lIjoiTG9kZ2VkRGF0ZUVuZCIsInZhbHVlIjoiMTgvMDcvMjAxNyJ9XSwiU29ydEV4cHJlc3Npb24iOiJMb2RnZWROZXciLCJSZWNvcmROdW1iZXIiOjAsIk1heFJlY29yZHMiOiIxMDAifQ==' 
 
-## Update JSON fields
-_json = JSON.parse(Base64.decode64(payload))
+_json = {
+  "ActionType" => "select",
+  "DataObject" => "PublicRegisterSearch",
+  "Config" => "PUBLIC_REGISTER",
+  "Params" => [
+    {"name" => "LodgedDateStart", "value" => "01/07/2017"},
+    {"name" => "LodgedDateEnd", "value" => "18/07/2017"}
+  ],
+  "SortExpression" => "LodgedNew",
+  "RecordNumber" => 0,
+  "MaxRecords" => "100"
+}
 _json['Params'][0]['value'] = startDate.strftime('%Y-%m-%d')
 _json['Params'][1]['value'] = endDate.strftime('%Y-%m-%d')
 _json['RecordNumber']       = 0
