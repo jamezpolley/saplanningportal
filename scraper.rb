@@ -17,7 +17,13 @@ applications.each do |application|
     "date_scraped" => Date.today.to_s,
     "on_notice_to" => Date.strptime(application["closingDate"], "%m/%d/%Y").to_s
   }
-  puts "Saving record #{record['council_reference']}, #{record['address']}"
 
+  # Instead of sending all comments to PlanSA we want to send comments to the individual councils
+  # Luckily that information (the email address) is available by call the "detail" endpoint
+  page = agent.post("https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticedetail", aid: application["applicationID"])
+  detail = JSON.parse(page.body)
+  record["comment_email"] = detail["email"]
+
+  puts "Saving record #{record['council_reference']}, #{record['address']}"
   ScraperWiki.save_sqlite(['council_reference'], record)
 end
