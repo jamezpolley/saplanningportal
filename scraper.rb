@@ -9,7 +9,7 @@ url = "https://plan.sa.gov.au/have_your_say/notified_developments/current_notifi
 applications = JSON.parse(agent.post(url).body)
 applications.each do |application|
   record = {
-    "council_reference" => application["applicationID"],
+    "council_reference" => application["applicationID"].to_s,
     "address" => application["propertyAddress"],
     "description" => application["developmentDescription"],
     # Not clear whether this page will stay around after the notification period is over
@@ -17,5 +17,7 @@ applications.each do |application|
     "date_scraped" => Date.today.to_s,
     "on_notice_to" => Date.strptime(application["closingDate"], "%m/%d/%Y").to_s
   }
+  puts "Saving record #{record['council_reference']}, #{record['address']}"
+
   ScraperWiki.save_sqlite(['council_reference'], record)
 end
