@@ -10,7 +10,9 @@ applications = JSON.parse(agent.post(url).body)
 applications.each do |application|
   record = {
     "council_reference" => application["applicationID"].to_s,
-    "address" => application["propertyAddress"],
+    # If there are multiple addresses they are all included in this field separated by ","
+    # Only use the first address
+    "address" => application["propertyAddress"].split(",").first,
     "description" => application["developmentDescription"],
     # Not clear whether this page will stay around after the notification period is over
     "info_url" => "https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/submission?aid=#{application['publicNotificationID']}",
