@@ -25,6 +25,7 @@ applications.each do |application|
   page = agent.post("https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticedetail", aid: application["applicationID"])
   detail = JSON.parse(page.body)
   record["comment_email"] = detail["email"]
+  record["comment_authority"] = detail["organisation"]
 
   puts "Saving record #{record['council_reference']}, #{record['address']}"
   ScraperWiki.save_sqlite(['council_reference'], record)
