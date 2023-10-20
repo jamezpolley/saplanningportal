@@ -7,6 +7,10 @@ agent = Mechanize.new
 # This endpoint is not "protected" by Kasada
 url = "https://cdn.plan.sa.gov.au/public-notifications/getpublicnoticessummary"
 response = agent.get(url)
+rescue Mechanize::ResponseCodeError => errorResponse
+  puts "Encountered error code #{errorResponse#response_code}"
+  puts "Body:\n#{errorResponse#page}
+end
 applications = JSON.parse(response.body)
 applications.each do |application|
   record = {
