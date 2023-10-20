@@ -6,7 +6,8 @@ agent = Mechanize.new
 
 # This endpoint is not "protected" by Kasada
 url = "https://cdn.plan.sa.gov.au/public-notifications/getpublicnoticessummary"
-applications = JSON.parse(agent.get(url).body)
+response = agent.get(url)
+applications = JSON.parse(response.body)
 applications.each do |application|
   record = {
     "council_reference" => application["applicationID"].to_s,
