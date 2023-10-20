@@ -1,18 +1,28 @@
-require "mechanize"
+require "capybara"
+require "selenium-webdriver"
+
 require "json"
 require "scraperwiki"
+require "logger"
 
-agent = Mechanize.new
+Capybara.register_driver :selenium_chrome_headless_morph do |app|
+  Capybara::Selenium::Driver.load_selenium
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    opts.args << '--headless'
+    opts.args << '--disable-gpu' if Gem.win_platform?
+    # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
+    opts.args << '--disable-site-isolation-trials'
+    opts.args << '--no-sandbox'
+  end
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+end
+
+# Open a Capybara session with the Selenium web driver for Chromium headless
+capybara = Capybara::Session.new(:selenium_chrome_headless_morph)
 
 # This endpoint is not "protected" by Kasada
-begin
-  url = "https://cdn.plan.sa.gov.au/public-notifications/getpublicnoticessummary"
-  response = agent.get(url)
-rescue Mechanize::ResponseCodeError => errorResponse
-  puts "Encountered error code #{errorResponse.response_code}"
-  puts "Body:\n#{errorResponse#page}"
-end
-applications = JSON.parse(response.body)
+url = "https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticessummary"
+applications = JSON.parse(capybara.visit(url).body)
 applications.each do |application|
   record = {
     "council_reference" => application["applicationID"].to_s,
@@ -28,10 +38,10 @@ applications.each do |application|
 
   # Instead of sending all comments to PlanSA we want to send comments to the individual councils
   # Luckily that information (the email address) is available by call the "detail" endpoint
-  page = agent.post("https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticedetail", aid: application["applicationID"])
-  detail = JSON.parse(page.body)
-  record["comment_email"] = detail["email"]
-  record["comment_authority"] = detail["organisation"]
+  #page = agent.post("https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticedetail", aid: application["applicationID"])
+  # detail = JSON.parse(page.body)
+  # record["comment_email"] = detail["email"]
+  # record["comment_authority"] = detail["organisation"]
 
   puts "Saving record #{record['council_reference']}, #{record['address']}"
   ScraperWiki.save_sqlite(['council_reference'], record)
