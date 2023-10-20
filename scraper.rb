@@ -22,7 +22,8 @@ capybara = Capybara::Session.new(:selenium_chrome_headless_morph)
 
 # This endpoint is not "protected" by Kasada
 url = "https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticessummary"
-applications = JSON.parse(capybara.visit(url).body)
+capybara.visit(url)
+applications = JSON.parse(capybara.body)
 applications.each do |application|
   record = {
     "council_reference" => application["applicationID"].to_s,
