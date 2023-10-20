@@ -5,7 +5,7 @@ require "scraperwiki"
 agent = Mechanize.new
 
 # This endpoint is not "protected" by Kasada
-url = "https://plan.sa.gov.au/have_your_say/notified_developments/current_notified_developments/assets/getpublicnoticessummary"
+url = "https://cdn.plan.sa.gov.au/public-notifications/getpublicnoticessummary"
 applications = JSON.parse(agent.post(url).body)
 applications.each do |application|
   record = {
